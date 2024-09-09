@@ -23,6 +23,8 @@ class Database:
     def remove(self,id):
         self.cur.execute('delete from Contacts where id = ?',(id,))
         self.con.commit()
+    def update(self):
+        pass    
     
     
     
