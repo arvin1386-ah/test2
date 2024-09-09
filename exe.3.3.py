@@ -1,19 +1,21 @@
 from tkinter import *
 from tkinter import messagebox
+from class_databace import Database
 root = Tk()
 root.title('')
 root.geometry('575x450')
 root.resizable(0,0)
 
-
+bd=Database('d:\Python6.db')
 
 
 s= Scrollbar(root, bg= 'red',)
 s.place(x =5, y = 125, height=200)
 
-def select():
+def select(event):
     try:
         global selected
+        global index
         index = lb.curselection()
         selected = lb.get(index)
         selected=selected.split()
@@ -27,15 +29,35 @@ def select():
         e4.insert(END,selected[4])
     except IndexError:
         pass
+
 lb= Listbox(root,yscrollcommand=s.set,borderwidth=10)
 lb.place(x= 25, y=125,width=525,height=200)
 s.config(command=lb.yview)
 lb.bind('<<ListboxSelect>>',select)
 # for i in range(1,21):
 #     lb.insert(END, i)
-def delete():
-    lb.delete(0,0)
+
+def bring_back():
+    bg=bd.fetch()
+    return bg
+r2=bring_back()
+ 
+for i in r2:
+    lb.insert(END, f'{i[0]} {i[1]} {i[2]} {i[3]} {i[4]}')
+def delete(): 
+    bd.remove(selected[0])
+    clear()
+    lb.delete(index)
 def add():
+    if e1.get()==''or e2.get()==''or e3.get()==''or e4.get()=='':
+        messagebox.showerror('ERROR','please enter everything completely')
+        return
+    try:
+        int(e4.get())
+    except:
+        messagebox.showerror('ERROR','invalid phone number')
+        return
+    bd.insert(e1.get(), e2.get(), e3.get(), e4.get())
     es =f'{e1.get()} {e2.get()} {e3.get()} {e4.get()}'
     lb.insert(0,es)
 def clear():
