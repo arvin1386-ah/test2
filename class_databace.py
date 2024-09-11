@@ -24,7 +24,9 @@ class Database:
         self.cur.execute('delete from Contacts where id = ?',(id,))
         self.con.commit()
     def update(self):
-        pass    
+        pass 
+# for test
+       
     
     
     
